@@ -1,0 +1,58 @@
+---
+
+- name: Create guacamole network
+  docker_network:
+    name: guacamole
+  register: guacamole_docker_net
+
+- name: Set guacamole network gateway address
+  set_fact:
+    guacamole_network_gateway: "{{ (guacamole_docker_net.network.IPAM.Config | first).Gateway }}"
+
+- name: Start guacamole server
+  docker_container:
+    name: guacamole-server
+    image: "{{ guacamole_server_image }}"
+    pull: "{{ guacamole_server_image_pull }}"
+    container_default_behavior: no_defaults
+    detach: yes
+    restart_policy: unless-stopped
+    network_mode: guacamole
+    networks:
+      - name: guacamole
+    networks_cli_compatible: yes
+    state: started
+
+- name: Set up SSH for guacamole user
+  include_tasks: setup-ssh.yml
+
+- name: Set up VNC server for guacamole user
+  include_tasks: setup-vnc.yml
+  when: desktop_enabled | default(false) | bool
+
+- name: Write guacamole user mapping file
+  template:
+    src: user-mapping.xml.j2
+    dest: /etc/guacamole/user-mapping.xml
+  register: guacamole_user_mapping
+
+- name: Start guacamole client
+  docker_container:
+    name: guacamole-client
+    image: "{{ guacamole_client_image }}"
+    pull: "{{ guacamole_client_image_pull }}"
+    container_default_behavior: no_defaults
+    detach: yes
+    restart_policy: unless-stopped
+    network_mode: guacamole
+    networks:
+      - name: guacamole
+    networks_cli_compatible: yes
+    env:
+      GUACAMOLE_HOME: /config
+      GUACD_HOSTNAME: guacamole-server
+    volumes:
+      - /etc/guacamole:/config:ro
+    state: started
+    # Force a restart when config files have changed
+    restart: "{{ guacamole_user_mapping is changed }}"

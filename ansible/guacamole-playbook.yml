@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  become: yes
+  pre_tasks:
+  roles:
+    - role: vnc-server
+      when: desktop_enabled | default(false) | bool
+    - guacamole
+    - role: tunnel-proxy
+      vars:
+        tunnel_proxy_name: guacamole-proxy
+        tunnel_proxy_docker_net: guacamole
+        tunnel_proxy_forward_to_host: guacamole-client
+        tunnel_proxy_forward_to_port: "8080"

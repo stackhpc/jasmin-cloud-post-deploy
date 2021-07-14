@@ -1,0 +1,21 @@
+---
+
+- name: Start tunnel proxy
+  docker_container:
+    name: "{{ tunnel_proxy_name }}"
+    image: "{{ tunnel_proxy_image }}"
+    pull: "{{ tunnel_proxy_image_pull }}"
+    container_default_behavior: no_defaults
+    detach: yes
+    restart_policy: unless-stopped
+    network_mode: "{{ tunnel_proxy_docker_net }}"
+    networks:
+      - name: "{{ tunnel_proxy_docker_net }}"
+    networks_cli_compatible: yes
+    env:
+      TUNNEL_SERVER: "{{ tunnel_proxy_sshd_host }}"
+      TUNNEL_SERVER_PORT: "{{ tunnel_proxy_sshd_port }}"
+      FORWARD_TO_HOST: "{{ tunnel_proxy_forward_to_host }}"
+      FORWARD_TO_PORT: "{{ tunnel_proxy_forward_to_port }}"
+      SUBDOMAIN: "{{ tunnel_proxy_subdomain | default('guacamole') }}"
+    state: started
