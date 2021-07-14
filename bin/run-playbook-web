@@ -12,7 +12,7 @@ set -e
 sudo yum install -y git
 
 # Clone the repository
-git clone https://github.com/stackhpc/jasmin-cloud-post-deploy.git /opt/jasmin-cloud-post-deploy
+git clone https://github.com/stackhpc/jasmin-cloud-post-deploy.git ~/jasmin-cloud-post-deploy
 
 # Execute the specified playbook
-exec /opt/jasmin-cloud-post-deploy/bin/run-playbook "$@"
+exec ~/jasmin-cloud-post-deploy/bin/run-playbook "$@"
