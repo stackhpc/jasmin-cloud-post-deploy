@@ -40,4 +40,9 @@ pip install ansible
 ansible-galaxy install -f -r "$ansible_dir/requirements.yml"
 
 # Execute the specified playbook against localhost
-ansible-playbook --inventory localhost, --connection local "$playbook_file"
+# We use the Python interpreter from the Ansible virtualenv
+ansible-playbook \
+  --inventory localhost, \
+  --connection local \
+  --extra-vars "ansible_python_interpreter=~/.venvs/ansible/bin/python" \
+  "$playbook_file"
