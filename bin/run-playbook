@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -e
+
+#####
+# This script installs Ansible before executing the specified playbook
+#####
+
+script_file="$(realpath "$0")"
+script_dir="$(dirname "$script_file")"
+base_dir="$(dirname "$script_dir")"
+ansible_dir="${base_dir}/ansible"
+
+if [ -z "$1" ]; then
+    echo "[ERROR] No playbook given" 1>&2
+    exit 1
+fi
+
+playbook_file="${ansible_dir}/$1-playbook.yml"
+if [ ! -f "$playbook_file" ]; then
+    echo "[ERROR] Playbook $playbook_file does not exist" 1>&2
+    exit 1
+fi
+
+# Install Python3
+sudo yum install -y python3
+
+# Create and activate a virtual environment for Ansible
+mkdir -p ~/.venvs
+if [ ! -d ~/.venvs/ansible ]; then
+    python3 -m venv ~/.venvs/ansible
+fi
+source ~/.venvs/ansible/bin/activate
+pip install --upgrade pip
+
+# Install Ansible
+pip install ansible
+
+# Run ansible-galaxy to pull the required roles and collections
+ansible-galaxy install -f -r "$ansible_dir/requirements.yml"
+
+# Execute the specified playbook against localhost
+ansible-playbook --inventory localhost, --connection local "$playbook_file"
