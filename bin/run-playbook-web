@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 #####
 # This script is designed to be run straight from the web to install a playbook

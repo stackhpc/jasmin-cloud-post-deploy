@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 #####
 # This script installs Ansible before executing the specified playbook
@@ -43,4 +43,8 @@ ansible-galaxy install -f -r "$ansible_dir/requirements.yml"
 
 # Execute the specified playbook against localhost
 # We use the Python interpreter from the Ansible virtualenv
-exec ansible-playbook --inventory localhost, --connection local "$playbook_file"
+exec ansible-playbook \
+  --inventory localhost, \
+  --connection local \
+  --extra-vars "ansible_python_interpreter=$ansible_venv/bin/python" \
+  "$playbook_file"
