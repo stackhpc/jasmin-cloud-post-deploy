@@ -6,6 +6,8 @@ set -ex
 # This script installs Ansible before executing the specified playbook
 #####
 
+env
+
 script_file="$(realpath "$0")"
 script_dir="$(dirname "$script_file")"
 base_dir="$(dirname "$script_dir")"
