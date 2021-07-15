@@ -12,7 +12,7 @@ script_file="$(realpath "$0")"
 script_dir="$(dirname "$script_file")"
 base_dir="$(dirname "$script_dir")"
 ansible_dir="${base_dir}/ansible"
-venvs_dir="$(realpath "~/.venvs")"
+venvs_dir="$(realpath ~/.venvs)"
 ansible_venv="$venvs_dir/ansible"
 
 if [ -z "$1" ]; then
