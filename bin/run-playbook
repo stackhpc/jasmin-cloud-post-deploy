@@ -10,7 +10,7 @@ script_file="$(realpath "$0")"
 script_dir="$(dirname "$script_file")"
 base_dir="$(dirname "$script_dir")"
 ansible_dir="${base_dir}/ansible"
-venvs_dir="$HOME/.venvs"
+venvs_dir="~/.venvs"
 ansible_venv="$venvs_dir/ansible"
 
 if [ -z "$1" ]; then
@@ -43,8 +43,4 @@ ansible-galaxy install -f -r "$ansible_dir/requirements.yml"
 
 # Execute the specified playbook against localhost
 # We use the Python interpreter from the Ansible virtualenv
-ansible-playbook \
-  --inventory localhost, \
-  --connection local \
-  --extra-vars "ansible_python_interpreter=$ansible_venv/bin/python" \
-  "$playbook_file"
+exec ansible-playbook --inventory localhost, --connection local "$playbook_file"

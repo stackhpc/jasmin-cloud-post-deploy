@@ -22,7 +22,11 @@
 
 - name: Install Python Docker bindings
   pip:
-    name: docker
+    name:
+      - docker
+      # This is required until this issue is fixed in a released version
+      # https://github.com/docker/docker-py/issues/2842
+      - six
     state: present
 
 - name: Refresh network facts to pick up Docker bridge
