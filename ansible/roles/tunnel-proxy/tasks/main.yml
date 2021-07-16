@@ -1,5 +1,11 @@
 ---
 
+- debug: var=_openstack_metadata
+- debug: var=tunnel_proxy_sshd_host
+- debug: var=tunnel_proxy_sshd_port
+- debug: var=tunnel_proxy_subdomain
+- fail:
+
 - name: Start tunnel proxy
   docker_container:
     name: "{{ tunnel_proxy_name }}"
@@ -17,5 +23,5 @@
       TUNNEL_SERVER_PORT: "{{ tunnel_proxy_sshd_port }}"
       FORWARD_TO_HOST: "{{ tunnel_proxy_forward_to_host }}"
       FORWARD_TO_PORT: "{{ tunnel_proxy_forward_to_port }}"
-      SUBDOMAIN: "{{ tunnel_proxy_subdomain | default('guacamole') }}"
+      SUBDOMAIN: "{{ tunnel_proxy_subdomain }}"
     state: started

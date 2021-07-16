@@ -2,7 +2,6 @@
 
 - hosts: all
   become: yes
-  pre_tasks:
   roles:
     - role: vnc-server
       when: desktop_enabled | default(false) | bool
