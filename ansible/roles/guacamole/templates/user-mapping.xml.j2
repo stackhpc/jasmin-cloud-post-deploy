@@ -1,9 +1,5 @@
 <user-mapping>
-    <authorize
-        username="portal"
-        password="{{ guacamole_password_hash }}"
-        encoding="md5"
-    >
+    <authorize username="portal" password="portal">
         <connection name="shell">
             <protocol>ssh</protocol>
             <param name="hostname">{{ ansible_docker0.ipv4.address }}</param>
