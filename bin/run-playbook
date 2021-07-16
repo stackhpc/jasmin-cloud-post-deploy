@@ -10,8 +10,9 @@ script_file="$(realpath "$0")"
 script_dir="$(dirname "$script_file")"
 base_dir="$(dirname "$script_dir")"
 ansible_dir="${base_dir}/ansible"
-venvs_dir="$(realpath ~/.venvs)"
-ansible_venv="$venvs_dir/ansible"
+
+virtualenv_dir="${VIRTUALENV_DIR:-/opt/virtualenv}"
+ansible_venv="$virtualenv_dir/ansible"
 
 if [ -z "$1" ]; then
     echo "[ERROR] No playbook given" 1>&2
@@ -25,10 +26,10 @@ if [ ! -f "$playbook_file" ]; then
 fi
 
 # Install Python3
-sudo yum install -y python3
+yum install -y python3
 
 # Create and activate a virtual environment for Ansible
-mkdir -p "$venvs_dir"
+mkdir -p "$virtualenv_dir"
 if [ ! -d "$ansible_venv" ]; then
     python3 -m venv "$ansible_venv"
 fi

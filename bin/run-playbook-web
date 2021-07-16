@@ -9,12 +9,12 @@ set -ex
 #####
 
 # Install git
-sudo yum install -y git
+yum install -y git
 
 # Clone the repository if not already present
-if [ ! -d ~/jasmin-cloud-post-deploy ]; then
-    git clone https://github.com/stackhpc/jasmin-cloud-post-deploy.git ~/jasmin-cloud-post-deploy
+if [ ! -d /opt/jasmin-cloud-post-deploy ]; then
+    git clone https://github.com/stackhpc/jasmin-cloud-post-deploy.git /opt/jasmin-cloud-post-deploy
 fi
 
 # Execute the specified playbook
-exec ~/jasmin-cloud-post-deploy/bin/run-playbook "$@"
+exec /opt/jasmin-cloud-post-deploy/bin/run-playbook "$@"
