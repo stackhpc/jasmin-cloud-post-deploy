@@ -20,14 +20,12 @@
     state: started
     enabled: yes
 
+# We do this using the command module as making pip reliably install into the
+# Ansible Python interpreter is not trivial
+# We have to specify six explicitly until this issue is fixed in a released version
+# https://github.com/docker/docker-py/issues/2842
 - name: Install Python Docker bindings
-  pip:
-    name:
-      - docker
-      # This is required until this issue is fixed in a released version
-      # https://github.com/docker/docker-py/issues/2842
-      - six
-    state: present
+  command: "{{ ansible_python_interpreter }} -m pip install docker six"
 
 - name: Refresh network facts to pick up Docker bridge
   setup:
