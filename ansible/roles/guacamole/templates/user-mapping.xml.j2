@@ -12,7 +12,7 @@
             <param name="private-key">{{ guacamole_ssh_private_key }}</param>
             <param name="enable-sftp">true</param>
         </connection>
-        {% if desktop_enabled | default(false) | bool %}
+        {% if guacamole_desktop_enabled %}
         <connection name="desktop">
             <protocol>vnc</protocol>
             <param name="hostname">{{ guacamole_network_gateway }}</param>

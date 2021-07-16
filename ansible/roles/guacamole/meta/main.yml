@@ -5,4 +5,6 @@ collections:
   - community.docker
 
 dependencies:
+  - role: vnc-server
+    when: guacamole_desktop_enabled
   - role: docker

@@ -28,7 +28,7 @@
 
 - name: Set up VNC server for guacamole user
   include_tasks: setup-vnc.yml
-  when: desktop_enabled | default(false) | bool
+  when: guacamole_desktop_enabled
 
 - name: Write guacamole user mapping file
   template:
