@@ -7,7 +7,7 @@ tunnel_proxy_image: "{{ tunnel_proxy_image_prefix }}/{{ tunnel_proxy_image_name 
 tunnel_proxy_image_pull: yes
 
 # By default, get the proxy SSHD host and port from the metadata
-_openstack_metadata: "{{ lookup('url', 'http://169.254.169.254/openstack/latest/meta_data.json').meta }}"
+_openstack_metadata: "{{ lookup('url', 'http://169.254.169.254/openstack/latest/meta_data.json') | from_json }}"
 
 tunnel_proxy_sshd_host: c1102a29.nip.io
 tunnel_proxy_sshd_port: "32222"
