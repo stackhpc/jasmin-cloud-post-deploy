@@ -12,3 +12,4 @@
         tunnel_proxy_docker_net: guacamole
         tunnel_proxy_forward_to_host: guacamole-client
         tunnel_proxy_forward_to_port: "8080"
+        tunnel_proxy_service_name: console
