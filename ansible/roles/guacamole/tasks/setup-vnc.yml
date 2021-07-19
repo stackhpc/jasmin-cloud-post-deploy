@@ -47,6 +47,9 @@
   become: yes
   become_user: "{{ guacamole_user }}"
 
+- name: Restore SELinux context for .vnc directory
+  command: restorecon -RFv {{ guacamole_user_vnc_config_dir }}
+
 - name: Configure guacamole user as first VNC display
   lineinfile:
     path: /etc/tigervnc/vncserver.users
