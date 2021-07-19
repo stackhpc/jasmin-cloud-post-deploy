@@ -27,7 +27,7 @@
     dest: /etc/systemd/system/vncserver@.service.d/
   loop:
     - start_order.conf
-#    - restart.conf
+    - restart.conf
   register: vnc_server_start_order
 
 - name: Force systemd to reload units
