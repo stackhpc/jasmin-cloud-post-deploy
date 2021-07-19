@@ -15,3 +15,16 @@ tunnel_proxy_sshd_port: "{{ _openstack_metadata.meta.portal_app_proxy_sshd_port 
 # The subdomain to use is a hash of the project id, instance id and service name
 # Because DNS requires subdomains to be < 64 characters, which is the length of a SHA256 hash, we use SHA1
 tunnel_proxy_subdomain: "{{ (_openstack_metadata.project_id + _openstack_metadata.uuid + tunnel_proxy_service_name) | hash('sha1') }}"
+
+# The environment variables for the tunnel proxy
+tunnel_proxy_environment:
+  # Require other variables to be present for these environment variables
+  TUNNEL_SERVER: "{{ tunnel_proxy_sshd_host }}"
+  TUNNEL_SERVER_PORT: "{{ tunnel_proxy_sshd_port }}"
+  FORWARD_TO_HOST: "{{ tunnel_proxy_forward_to_host }}"
+  FORWARD_TO_PORT: "{{ tunnel_proxy_forward_to_port }}"
+  SUBDOMAIN: "{{ tunnel_proxy_subdomain }}"
+  # By default use the project id, instance id and service name as metadata
+  TUNNEL_META_OPENSTACK_PROJECT_ID: "{{ _openstack_metadata.project_id }}"
+  TUNNEL_META_OPENSTACK_INSTANCE_ID: "{{ _openstack_metadata.uuid }}"
+  TUNNEL_META_SERVICE_NAME: "{{ tunnel_proxy_service_name }}"
